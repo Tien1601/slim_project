@@ -39,6 +39,7 @@ create table SampleDelivery (
     UserID int,
     Create_at datetime,
     primary key (SampleDeliveryID),
-    foreign key (SampleID) references Sample(SampleID));
+    foreign key (SampleID) references Sample(SampleID),
+    foreign key (EquipmentID) references Equipment(EquipmentID));
     
     
