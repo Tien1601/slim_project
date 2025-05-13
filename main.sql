@@ -38,34 +38,36 @@ create table SampleDelivery (
     EquipmentID int,
     UserID int,
     Create_at datetime,
+    MethodID int,
     primary key (SampleDeliveryID),
     foreign key (SampleID) references Sample(SampleID),
-    foreign key (EquipmentID) references Equipment(EquipmentID));
+    foreign key (EquipmentID) references Equipment(EquipmentID),
+    foreign key (MethodID) references Method(MethodID));
+  
+create table CategoryMethod (
+	CategoryMethodID int,
+	Name varchar (64),
+    primary key (CategoryMethodID));
     
-create table Warehouse (
-	WarehouseID int,
-    WarehouseName varchar(128),
-    EquipmentID int,
-    Location varchar(64),
-    `Description` varchar(1024),
-    primary key (WarehouseID),
-    foreign key (EquipmentID) references Equipment(EquipmentID));
+create table Method (
+	MethodID int,
+    CategoryMethodID int,
+    TargetName varchar (64),
+    MethodName varchar (64),
+    LOD decimal(6,2),
+    LOQ decimal(6,2),
+    Unit varchar (16),
+    primary key (MethodID),
+    foreign key (CategoryMethodID) references CategoryMethod(CategoryMethodID));
     
-create table Warehouse_checklist (
-	Warehouse_checklist_ID int,
-    WarehouseID int,
-    SampleID int,
-    UserID int,
-    EquipmentID int,
-    `Status` varchar(64),
-    Inventory decimal(6,2),
-    UseDate datetime,
-    primary key (Warehouse_checklist_ID),
-    foreign key (WarehouseID) reference Warehouse(WarehouseID),
-    foreign key (SampleID) reference Sample(SampleID),
-    foreign key (UserID) reference `User`(UserID),
-    foreign key (EquipmentID) reference Equipment(EquipmentID));
+
+
     
+
+    
+
+    
+/*
 create table Material (
 	MaterialID int,
     MaterialName varchar(64),
@@ -115,6 +117,7 @@ create table Report_valid (
     primary key (Report_valid_ID),
     foreign key (ReportID) reference Report(ReportID),
     foreign key (UserID) reference User(UserID));
+    */
     
     
     

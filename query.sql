@@ -8,4 +8,11 @@ inner join sampledelivery on sample.SampleID = sampledelivery.SampleID)
 inner join `group` on `group`.GroupID = user.GroupID)
 inner join equipment on equipment.EquipmentID = sampledelivery.EquipmentID);
 
+-- method bao gom nhung mau nao va ten mau la gi?
 
+select sample.Name, sampledelivery.SampleID, method.MethodName
+from ((sampledelivery
+inner join method on sampledelivery.MethodID = method.MethodID)
+inner join sample on sampledelivery.SampleID = sample.SampleID);
+
+-- group 1 lam
