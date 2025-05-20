@@ -59,6 +59,79 @@ create table Method (
     Unit varchar (16),
     primary key (MethodID),
     foreign key (CategoryMethodID) references CategoryMethod(CategoryMethodID));
+   
+create table SampleList (
+	SampleListID int,
+    SampleID int,
+    EquipmentID int,
+    GroupID int,
+    UserID int,
+    Starttime datetime,
+    primary key (SampleListID),
+    foreign key (SampleID) references Sample(SampleID),
+    foreign key (EquipmentID) references Equipment(EquipmentID),
+    foreign key (GroupID) references `Group`(GroupID),
+    foreign key (UserID) references User(UserID));
+    
+create table Material (
+	MaterialID int,
+    MaterialName varchar(64),
+    Code varchar(32),
+    primary key (MaterialID));
+    
+create table MaterialPreparation (
+	MaterialPreparationID int,
+    MaterialID int,
+    InternalID int,
+    UserID int,
+    EquipmentID int,
+    PreparationDate datetime,
+    ExpirationDate datetime,
+    primary key (MaterialPreparationID),
+    foreign key (MaterialID) references Material(MaterialID),
+    foreign key (UserID) references User(UserID),
+    foreign key (EquipmentID) references Equipment(EquipmentID));
+    
+create table Pretreatment (
+		PretreatmentID int,
+        SampleID int,
+        EquipmentID int,
+        UserID int,
+        PretreatmentDate datetime,
+        primary key (PretreatmentID),
+        foreign key (SampleID) references Sample(SampleID),
+        foreign key (EquipmentID) references Equipment(EquipmentID),
+        foreign key (UserID) references User(UserID));
+	
+create table Extraction (
+	ExtractionID int,
+    SampleID int,
+    MaterialPreparationID int,
+    EquipmentID int,
+    UserID int,
+    Concentration decimal (6,2),
+    Purity decimal (3,2),
+    ExtractionDate datetime,
+    primary key (ExtractionID),
+    foreign key (SampleID) references Sample(SampleID),
+    foreign key (MaterialPreparationID) references MaterialPreparation(MaterialPreparationID),
+    foreign key (EquipmentID) references Equipment(EquipmentID),
+	foreign key (UserID) references User(UserID));      
+    
+create table TestingForm (
+	TestingFormID int,
+    UserID int,
+    SampleListID int,
+    MethodID int,
+    ExtractionID int,
+    PretreatmentID int, 
+    TestingDate datetime,
+    primary key (TestingFormID),
+    foreign key (UserID) references User(UserID),
+    foreign key (SampleListID) references samplelist(SampleListID),
+    foreign key (MethodID) references Method(MethodID),
+    foreign key (ExtractionID) references Extraction(ExtractionID),
+    foreign key (PretreatmentID) references Pretreatment(PretreatmentID));
     
 
 
@@ -68,24 +141,6 @@ create table Method (
 
     
 /*
-create table Material (
-	MaterialID int,
-    MaterialName varchar(64),
-    Code varchar(32),
-    primary key (MaterialID));
-    
-create table Material_preparation (
-	Material_preparation_ID int,
-    MaterialID int,
-    InternalID int,
-    UserID int,
-    EquipmentID int,
-    PreparationDate datetime,
-    ExpirationDate datetime,
-    primary key (Material_preparation_ID),
-    foreign key (MaterialID) references Material(MaterialID),
-    foreign key (UserID) references User(UserID),
-    foreign key (Equipment) references Equipment(EquipmentID));
     
 create table Result (
 	ResultID int,
