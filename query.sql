@@ -15,4 +15,10 @@ from ((sampledelivery
 inner join method on sampledelivery.MethodID = method.MethodID)
 inner join sample on sampledelivery.SampleID = sample.SampleID);
 
--- group 1 lam
+-- thông tin chi tiết chuẩn bị nguyên vật liệu
+
+select material.MaterialName, material.Code, materialpreparation.InternalID, materialpreparation.UserID, materialpreparation.PreparationDate, materialpreparation.ExpirationDate
+from (materialpreparation
+inner join material on materialpreparation.MaterialID = material.MaterialID);
+
+-- khi 2 chữ số cuối của internalID là 01 thì ngày hết hạn thêm 3 tháng, 02 thêm 6 tháng

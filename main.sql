@@ -92,20 +92,28 @@ create table MaterialPreparation (
     foreign key (UserID) references User(UserID),
     foreign key (EquipmentID) references Equipment(EquipmentID));
     
+create table TestingForm (
+	TestingFormID int,
+    UserID int,
+    TestingDate datetime,
+    primary key (TestingFormID),
+    foreign key (UserID) references User(UserID));  
+    
+    
 create table Pretreatment (
 		PretreatmentID int,
-        SampleID int,
+        TestingFormID int,
         EquipmentID int,
         UserID int,
         PretreatmentDate datetime,
         primary key (PretreatmentID),
-        foreign key (SampleID) references Sample(SampleID),
+        foreign key (TestingFormID) references TestingForm(TestingFormID),
         foreign key (EquipmentID) references Equipment(EquipmentID),
         foreign key (UserID) references User(UserID));
 	
 create table Extraction (
 	ExtractionID int,
-    SampleID int,
+    TestingFormID int,
     MaterialPreparationID int,
     EquipmentID int,
     UserID int,
@@ -113,25 +121,14 @@ create table Extraction (
     Purity decimal (3,2),
     ExtractionDate datetime,
     primary key (ExtractionID),
-    foreign key (SampleID) references Sample(SampleID),
+    foreign key (TestingFormID) references TestingForm(TestingFormID),
     foreign key (MaterialPreparationID) references MaterialPreparation(MaterialPreparationID),
     foreign key (EquipmentID) references Equipment(EquipmentID),
 	foreign key (UserID) references User(UserID));      
     
-create table TestingForm (
-	TestingFormID int,
-    UserID int,
-    SampleListID int,
-    MethodID int,
-    ExtractionID int,
-    PretreatmentID int, 
-    TestingDate datetime,
-    primary key (TestingFormID),
-    foreign key (UserID) references User(UserID),
-    foreign key (SampleListID) references samplelist(SampleListID),
-    foreign key (MethodID) references Method(MethodID),
-    foreign key (ExtractionID) references Extraction(ExtractionID),
-    foreign key (PretreatmentID) references Pretreatment(PretreatmentID));
+
+    
+    
     
 
 
