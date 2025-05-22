@@ -98,7 +98,9 @@ create table TestingForm (
     TestingDate datetime,
     primary key (TestingFormID),
     foreign key (UserID) references User(UserID));  
-    
+    set foreign_key_checks = 0
+    drop table TestingForm;
+    set foreign_key_checks = 1
     
 create table Pretreatment (
 		PretreatmentID int,
