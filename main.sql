@@ -30,8 +30,25 @@ create table Sample (
     Create_at datetime,
     primary key (SampleID),
     foreign key (UserID) references User(UserID));
-        
-    
+
+create table CategoryMethod (
+	CategoryMethodID int,
+	Name varchar (64),
+    primary key (CategoryMethodID));
+
+create table Method (
+	MethodID int,
+    CategoryMethodID int,
+    TargetName varchar (64),
+    MethodName varchar (64),
+    LOD decimal(6,2),
+    LOQ decimal(6,2),
+    Unit varchar (16),
+    primary key (MethodID),
+    foreign key (CategoryMethodID) references CategoryMethod(CategoryMethodID));
+   
+
+
 create table SampleDelivery (
 	SampleDeliveryID int,
     SampleID int,
@@ -44,25 +61,12 @@ create table SampleDelivery (
     foreign key (EquipmentID) references Equipment(EquipmentID),
     foreign key (MethodID) references Method(MethodID));
   
-create table CategoryMethod (
-	CategoryMethodID int,
-	Name varchar (64),
-    primary key (CategoryMethodID));
-    
-create table Method (
-	MethodID int,
-    CategoryMethodID int,
-    TargetName varchar (64),
-    MethodName varchar (64),
-    LOD decimal(6,2),
-    LOQ decimal(6,2),
-    Unit varchar (16),
-    primary key (MethodID),
-    foreign key (CategoryMethodID) references CategoryMethod(CategoryMethodID));
-   
+
 create table SampleList (
 	SampleListID int,
     SampleID int,
+    Quantity decimal (6,2),
+    Unit varchar(16),
     EquipmentID int,
     GroupID int,
     UserID int,
@@ -98,24 +102,27 @@ create table TestingForm (
     TestingDate datetime,
     primary key (TestingFormID),
     foreign key (UserID) references User(UserID));  
-    set foreign_key_checks = 0
-    drop table TestingForm;
-    set foreign_key_checks = 1
+    set foreign_key_checks = 0; /* vô hiệu hoá foreign key */
+    drop table TestingForm; /* xoá bảng TestingForm */ 
+    set foreign_key_checks = 1 ; 
+    
     
 create table Pretreatment (
 		PretreatmentID int,
-        TestingFormID int,
+        SampleListID int,
         EquipmentID int,
         UserID int,
         PretreatmentDate datetime,
         primary key (PretreatmentID),
-        foreign key (TestingFormID) references TestingForm(TestingFormID),
         foreign key (EquipmentID) references Equipment(EquipmentID),
+        foreign key (SampleListID) references SampleList(SampleListID),
         foreign key (UserID) references User(UserID));
-	
+		
+
+
 create table Extraction (
 	ExtractionID int,
-    TestingFormID int,
+    PretreatmentID int,
     MaterialPreparationID int,
     EquipmentID int,
     UserID int,
@@ -123,25 +130,14 @@ create table Extraction (
     Purity decimal (3,2),
     ExtractionDate datetime,
     primary key (ExtractionID),
-    foreign key (TestingFormID) references TestingForm(TestingFormID),
+    foreign key (PretreatmentID) references Pretreatment(PretreatmentID),
     foreign key (MaterialPreparationID) references MaterialPreparation(MaterialPreparationID),
     foreign key (EquipmentID) references Equipment(EquipmentID),
-	foreign key (UserID) references User(UserID));      
-    
-
-    
-    
-    
+    foreign key (UserID) references User(UserID));
 
 
-    
 
-    
 
-    
-/*
-    
-create table Result (
 	ResultID int,
     TestingFormID int,
     Material_preparation_ID int,
@@ -171,7 +167,6 @@ create table Report_valid (
     primary key (Report_valid_ID),
     foreign key (ReportID) reference Report(ReportID),
     foreign key (UserID) reference User(UserID));
-    */
-    
+
     
     

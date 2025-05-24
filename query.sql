@@ -21,4 +21,28 @@ select material.MaterialName, material.Code, materialpreparation.InternalID, mat
 from (materialpreparation
 inner join material on materialpreparation.MaterialID = material.MaterialID);
 
+-- mẫu 1 là mẫu gì, ai là người chia, chia khi nào, chia cho nhóm nào và được ai xử lí, xử lí vào ngày nào?alter
+select sample.Name, samplelist.UserID, samplelist.starttime, samplelist.GroupID, pretreatment.UserID, pretreatment.PretreatmentDate
+from ((samplelist
+inner join sample on samplelist.SampleID = sample.SampleID)
+inner join pretreatment on samplelist.SampleListID = pretreatment.SampleListID) where sample.SampleID = 1;
+
+-- phieu tach chiet so 1 la mau nao
+
+select sample.Name, sample.Quantity, sample.Unit
+from ((samplelist
+inner join sample on samplelist.SampleID = sample.SampleID)
+inner join pretreatment on samplelist.SampleListID = pretreatment.SampleListID);
+
+select sample.Name, sample.Quantity, sample.Unit, samplelist.Quantity as SplittedQuantity, samplelist.Unit as SplittedUnit, samplelist.UserID, sampledelivery.create_at, `group`.Name
+from ((((((samplelist
+inner join sample on samplelist.SampleID = sample.SampleID)
+inner join pretreatment on samplelist.SampleListID = pretreatment.SampleListID)
+inner join extraction on pretreatment.PretreatmentID = extraction.PretreatmentID)
+inner join sampledelivery on sample.SampleID = sampledelivery.SampleID)
+inner join user on user.UserID = sample.UserID)
+inner join `group` on `group`.GroupID = `user`.GroupID);
+
+
 -- khi 2 chữ số cuối của internalID là 01 thì ngày hết hạn thêm 3 tháng, 02 thêm 6 tháng
+
