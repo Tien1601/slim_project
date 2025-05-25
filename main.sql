@@ -31,6 +31,8 @@ create table Sample (
     primary key (SampleID),
     foreign key (UserID) references User(UserID));
 
+alter table Sample modify column Create_at DATETIME DEFAULT CURRENT_TIMESTAMP; -- update data type of column Create_at from datetime to current_timetamp
+
 create table CategoryMethod (
 	CategoryMethodID int,
 	Name varchar (64),
@@ -95,17 +97,7 @@ create table MaterialPreparation (
     foreign key (MaterialID) references Material(MaterialID),
     foreign key (UserID) references User(UserID),
     foreign key (EquipmentID) references Equipment(EquipmentID));
-    
-create table TestingForm (
-	TestingFormID int,
-    UserID int,
-    TestingDate datetime,
-    primary key (TestingFormID),
-    foreign key (UserID) references User(UserID));  
-    set foreign_key_checks = 0; /* vô hiệu hoá foreign key */
-    drop table TestingForm; /* xoá bảng TestingForm */ 
-    set foreign_key_checks = 1 ; 
-    
+      
     
 create table Pretreatment (
 		PretreatmentID int,
@@ -117,7 +109,6 @@ create table Pretreatment (
         foreign key (EquipmentID) references Equipment(EquipmentID),
         foreign key (SampleListID) references SampleList(SampleListID),
         foreign key (UserID) references User(UserID));
-		
 
 
 create table Extraction (
@@ -135,38 +126,50 @@ create table Extraction (
     foreign key (EquipmentID) references Equipment(EquipmentID),
     foreign key (UserID) references User(UserID));
 
+alter table method add ExtractionID int; -- Add the ExtractionID field to the Method table
+
+alter table method add foreign key (ExtractionID) references Extraction(ExtractionID); -- Add foreign key ExtractionID to the Method table
 
 
-
-	ResultID int,
-    TestingFormID int,
-    Material_preparation_ID int,
-    AnalysisID int,
-    UserID int,
-    primary key (ResultID),
-    foreign key (TestingFormID) references TestingForm(TestingFormID),
-    foreign key (Material_preparation_ID) references Material_preparation(Material_preparation_ID),
-    foreign key (AnalysisID) references Analysis(AnalysisID),
-    foreign key(UserID) references User(UserID));    
+create table Analysis (
+	AnalysisID int,
+	SampleID int,
+	EquipmentID int,
+	Result decimal (8,2),
+	UserID int,
+	create_at datetime,
+	primary key (AnalysisID),
+	foreign key (SampleID) references Sample(SampleID),
+	foreign key (EquipmentID) references Equipment(EquipmentID),
+	foreign key (UserID) references User(UserID));
+	    
     
 create table Report (
 	ReportID int,
-    ResultID int,
+	SampleID int,
+    AnalysisID int,
     ReferenceFile varchar(256),
+    MaterialPreparationID int,
+    MethodID int,
+    PretreatmentID int,
     UserID int,
     ReportDate datetime,
     primary key (ReportID),
-    foreign key (ResultID) reference Result(ResultID),
-    foreign key (UserID) reference User(UserID));
+    foreign key (SampleID) references Sample(SampleID),
+    foreign key (AnalysisID) references Analysis(AnalysisID),
+	foreign key (MaterialPreparationID) references MaterialPreparation(MaterialPreparationID),
+	foreign key (MethodID) references Method(MethodID),
+	foreign key (PretreatmentID) references Pretreatment(PretreatmentID),
+	foreign key (UserID) references User(UserID));
     
-create table Report_valid (
-	Report_valid_ID int,
+create table ReportValid (
+	ReportValidID int,
     ReportID int,
-    UserID_managerID int,
-    Signing_date datetime,
-    primary key (Report_valid_ID),
-    foreign key (ReportID) reference Report(ReportID),
-    foreign key (UserID) reference User(UserID));
+    UserID int, -- manager User
+    SigningDate datetime,
+    primary key (ReportValidID),
+    foreign key (ReportID) references Report(ReportID),
+    foreign key (UserID) references User(UserID));
 
     
     
