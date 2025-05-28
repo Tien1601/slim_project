@@ -62,6 +62,8 @@ create table SampleDelivery (
     foreign key (SampleID) references Sample(SampleID),
     foreign key (EquipmentID) references Equipment(EquipmentID),
     foreign key (MethodID) references Method(MethodID));
+
+alter table SampleDelivery modify column Create_at DATETIME DEFAULT CURRENT_TIMESTAMP; -- update data type of column Create_at from datetime to current_timetamp
   
 
 create table SampleList (
@@ -78,6 +80,9 @@ create table SampleList (
     foreign key (EquipmentID) references Equipment(EquipmentID),
     foreign key (GroupID) references `Group`(GroupID),
     foreign key (UserID) references User(UserID));
+
+alter table SampleList modify column Starttime DATETIME DEFAULT CURRENT_TIMESTAMP; -- update data type of column Create_at from datetime to current_timetamp
+
     
 create table Material (
 	MaterialID int,
@@ -97,7 +102,9 @@ create table MaterialPreparation (
     foreign key (MaterialID) references Material(MaterialID),
     foreign key (UserID) references User(UserID),
     foreign key (EquipmentID) references Equipment(EquipmentID));
-      
+
+alter table MaterialPreparation modify column PreparationDate DATETIME DEFAULT CURRENT_TIMESTAMP; -- update data type of column Create_at from datetime to current_timetamp
+
     
 create table Pretreatment (
 		PretreatmentID int,
@@ -142,6 +149,8 @@ create table Analysis (
 	foreign key (SampleID) references Sample(SampleID),
 	foreign key (EquipmentID) references Equipment(EquipmentID),
 	foreign key (UserID) references User(UserID));
+
+alter table Analysis modify column create_at DATETIME DEFAULT CURRENT_TIMESTAMP; -- update data type of column Create_at from datetime to current_timetamp
 	    
     
 create table Report (
@@ -161,6 +170,8 @@ create table Report (
 	foreign key (MethodID) references Method(MethodID),
 	foreign key (PretreatmentID) references Pretreatment(PretreatmentID),
 	foreign key (UserID) references User(UserID));
+
+alter table Report modify column ReportDate DATETIME DEFAULT CURRENT_TIMESTAMP;
     
 create table ReportValid (
 	ReportValidID int,
@@ -171,5 +182,6 @@ create table ReportValid (
     foreign key (ReportID) references Report(ReportID),
     foreign key (UserID) references User(UserID));
 
+alter table ReportValid modify column SigningDate DATETIME DEFAULT CURRENT_TIMESTAMP;
     
     

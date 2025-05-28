@@ -44,5 +44,13 @@ inner join user on user.UserID = sample.UserID)
 inner join `group` on `group`.GroupID = `user`.GroupID);
 
 
+-- kết quả mẫu 1 làm theo phương pháp nào, kết quả ra bao nhiêu và do ai thực hiện 
+
+select sample.sampleID, method.MethodName, method.TargetName, method.LOD, method.LOQ, method.Unit, analysis.result, analysis.UserID
+from (((report
+inner join sample on report.SampleID = sample.SampleID)
+inner join method on method.MethodID = report.MethodID)
+inner join analysis on analysis.AnalysisID = report.AnalysisID) where Report.SampleID = 1;
+
 -- khi 2 chữ số cuối của internalID là 01 thì ngày hết hạn thêm 3 tháng, 02 thêm 6 tháng
 
